@@ -1,0 +1,104 @@
+<html>
+    <head>
+        <title>SPA gatti casuali</title>
+        <!-- css -->
+        <style>
+            .contenitore-gatto-casuale{
+                text-align: center;
+            }
+
+            #gatto-casuale {
+                height: 400px;
+                width: auto;
+            }
+
+            .btn {
+                font-size: 24px;
+                background: aqua;
+                border: 1px solid #313030;
+                border-radius: 4px;
+                padding: 6px;
+                margin: 10px;
+            }
+
+            #contenitore-bottoni{
+                display: flex;
+                justify-content: center;
+            }
+
+            #gatti-salvati {
+                margin: 50px;
+                border: 5px solid #2a2a2a;
+                display: flex;
+                justify-content: space-around;
+                flex-wrap: wrap;
+            }
+
+            #gatti-salvati img{
+                height: 150px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- HTML-->
+        
+        <div id="contenitore-bottoni">
+
+            <button id="btn-ricarica" class="btn">Nuovo Gatto</button>
+            <button id="btn-salva" class="btn">Salva</button>
+            
+        </div>
+
+
+        <div class="contenitore-gatto-casuale">
+
+            <img id="gatto-casuale" src="" alt="">
+
+        </div>
+        
+        <div id="gatti-salvati">
+            <img id="gatto-casuale" src="" alt="">
+        </div>
+        <!-- JavaScript-->
+        <script>
+            const imgGattoCasuale = document.getElementById("gatto-casuale");
+            const btnRicarica=document.getElementById("btn-ricarica");
+            const btnSalva=document.getElementById("btn-salva");
+            const divGattiSalvati=document.getElementById("gatti-salvati");
+
+            async function getRandomCat(){
+                const url = "https://cataas.com/cat?json=false";
+                const response = await fetch(url); //per mandare richieste http a questa API(url)
+                if (response.ok){
+                    const body=await response.json(); //Aspetto la risposta
+                    console.log(body);
+                    imgGattoCasuale.src = body.url;
+                }
+                /*try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    console.log(result);
+                } catch (error) {
+                    console.error(error.message);
+                }*/
+
+            }
+
+            btnRicarica.addEventListener("click", getRandomCat);
+            getRandomCat(); 
+
+
+            function salvaGatto(){
+                const nuovaImg = document.createElement("img");
+                nuovaImg.src = imgGattoCasuale.src;
+                divGattiSalvati.append(nuovaImg);
+            }
+            btnSalva.addEventListener("click", salvaGatto);
+            
+        </script>
+    </body>
+</html>
